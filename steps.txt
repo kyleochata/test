@@ -1,0 +1,35 @@
+- npx create-next-app
+
+- npm i -D prisma
+- npm i @prisma/client
+
+npx prisma init
+
+compose.yaml:
+    services:
+        database:
+            image: postgres:15-alpine
+            environment:
+                POSTGRES_PASSWORD: example
+            ports:
+                - "5432:5432"
+
+ensure .env has: (after the port/, if the postgresdb doesn't have a db nameed that, it'll create it on connection)
+DATABASE_URL="postgresql://postgres:example@localhost:5432/dev_test"
+
+package.json:
+
+{
+    ...
+    "prisma": {
+        "schema": "./prisma"
+    }
+}
+
+** able to split models out of the og schema.prisma file **
+
+docker compose up //starts postgres container
+npx prisma migrate dev --name init // will create the tables defined 
+npx prisma studio -- able to see gui of the container
+npx prisma generate // after every change to db models
+npm run dev
